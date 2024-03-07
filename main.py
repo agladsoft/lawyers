@@ -10,7 +10,6 @@ from unified.split_scanned_by_paragraph import *
 from difference_between_files.difference import save_disagreement
 from flask import render_template, request, jsonify, Response, make_response
 
-
 # Флаг для определения необходимости перезапуска
 restart_flag = False
 
@@ -77,6 +76,8 @@ def get_unified_data():
     max_thr = response["threshold"]
     left_text = response["docx"].split("\n")
     right_text = response["pdf"].split("\n")
+    left_text = [i for i in left_text if i not in ('\n', '') and not i.isspace()]
+    right_text = [i for i in right_text if i not in ('\n', '') and not i.isspace()]
     left_final, right_final = main(left_text, right_text, max_thr)
     dict_data = {
         "docx": left_final,
@@ -89,6 +90,7 @@ def get_unified_data():
 def restart():
     global restart_flag
     restart_flag = True
+    logger.info('Restart project')
     # Осуществляем перезапуск Flask-приложения
     os.execv(sys.executable, [sys.executable] + sys.argv)
 
