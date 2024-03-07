@@ -1,0 +1,181 @@
+/* Scrollbar */
+body::-webkit-scrollbar, textarea::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+body::-webkit-scrollbar-track, textarea::-webkit-scrollbar-track {
+  background: orange;        /* color of the tracking area */
+}
+
+body::-webkit-scrollbar-thumb, textarea::-webkit-scrollbar-thumb {
+  background-color: blue;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid orange;  /* creates padding around scroll thumb */
+}
+
+/* Dropzone */
+.dropzone {
+    width: 90%;
+    border: 2px solid #1E90FF;
+    border-radius: 5px;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+.dropzone .dz-preview {
+    margin: 10px;
+}
+.dropzone .dz-preview.dz-file-preview .dz-image {
+    border-radius: 20px;
+    background: #999;
+    background: linear-gradient(to bottom, #7CB9E8, #318CE7);
+}
+
+.textarea_style {
+    width: 90%;
+    border: 2px solid #1E90FF;
+    border-radius: 5px;
+	padding: 3px;
+	margin-bottom: 5px;
+}
+
+/* Flex div */
+.parent {
+    display: flex;
+    flex-direction:row;
+}
+.column {
+  flex: 1 1 0px;
+}
+
+
+/* Button */
+.custom-btn {
+    width: 150px;
+    height: 40px;
+    color: #fff;
+    margin-left: 42.5%;
+    border-radius: 5px;
+    font-family: 'Lato', sans-serif;
+    font-weight: 500;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: inline-block;
+    box-shadow:inset 2px 2px 2px 0px rgba(255,255,255,.5),
+    7px 7px 20px 0px rgba(0,0,0,.1),
+    4px 4px 5px 0px rgba(0,0,0,.1);
+    outline: none;
+}
+.btn-13 {
+    background-color: #3C99DC;
+    background-image: linear-gradient(315deg, #3C99DC 0%, #66D3FA 74%);
+    border: none;
+    z-index: 1;
+}
+.btn-13:after {
+    position: absolute;
+    content: "";
+    width: 100%;
+    height: 0;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    border-radius: 5px;
+    background-color: #3C99DC;
+    background-image: linear-gradient(315deg, #3C99DC 0%, #66D3FA 74%);
+    box-shadow:
+    -7px -7px 20px 0px #fff9,
+    -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #fff9,
+    4px 4px 5px 0px #0001;
+    transition: all 0.3s ease;
+}
+.btn-13:hover {
+    color: #fff;
+}
+.btn-13:hover:after {
+    top: 0;
+    height: 100%;
+}
+.btn-13:active {
+    top: 2px;
+}
+.btn-13:disabled {
+    cursor: not-allowed;
+    background-color: #FF0000; /* Цвет фона кнопки для неактивных кнопок */
+    background-image: none;
+    color: #666; /* Цвет текста для неактивных кнопок */
+    border: 1px solid #999; /* Граница для неактивных кнопок */
+}
+.btn-13:disabled::after {
+    content: none; /* или content: ""; */
+}
+
+
+/* Input */
+.form-field {
+    border: 2px solid #1E90FF;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+input:focus, textarea:focus {
+	outline: none;
+  	border: 2px solid #0000CD;
+}
+.margin_div {
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+}
+
+
+/* Center the loader */
+#loader {
+    display: none;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 1;
+    width: 150px;
+    height: 150px;
+    margin: -75px 0 0 -75px;
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid blue;
+    border-right: 16px solid green;
+    border-bottom: 16px solid red;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Add animation to "page content" */
+.animate-bottom {
+    position: relative;
+    -webkit-animation-name: animatebottom;
+    -webkit-animation-duration: 1s;
+    animation-name: animatebottom;
+    animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+    from { bottom:-100px; opacity:0 }
+    to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom {
+    from{ bottom:-100px; opacity:0 }
+    to{ bottom:0; opacity:1 }
+}

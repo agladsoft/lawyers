@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  flask_service:
+    container_name: flask_service_container
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ${PATH_ROOT}:${PATH_DOCKER}
+      - ${PATH_PROJECT}:${PATH_PROJECT_DOCKER}
+      - ${PATH_DOCUMENTS}:${PATH_DOCKER_DOCUMENTS}
+      - ${PATH_ROOT_COMPLETED_FILES}:${PATH_DOCKER_COMPLETED_FILES}
+    environment:
+      PATH_ROOT_COMPLETED_FILES: ${PATH_DOCKER_COMPLETED_FILES}
+      PATH_ROOT: ${PATH_DOCKER}
+      PATH_DOCUMENTS: ${PATH_DOCKER_DOCUMENTS}
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    command:
+      bash -c "python3 ${PATH_PROJECT_DOCKER}/main.py"

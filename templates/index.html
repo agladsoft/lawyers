@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" type="text/css" />
+    <title>File Dropper</title>
+</head>
+<body>
+<div style="margin-left: 5%">
+
+    <div class="margin_div">
+        <label class="textarea_style" for="countError"> Возможное количество ошибок в абзаце</label>
+        <input value="0" class="number form-field" type="number" id="countError" />
+    </div>
+
+    <div class="margin_div">
+        <label class="textarea_style" for="threshold"> Интенсивность разбивки</label>
+        <input value="200" class="number form-field" type="number" id="threshold" />
+    </div>
+
+    <div class="margin_div">
+        <label class="textarea_style" for="group_paragraph">Выводить весь пункт</label>
+        <input type="checkbox" id="group_paragraph" checked="checked">
+    </div>
+
+    <div class="parent">
+        <div class="column">
+            <form
+                method="POST"
+                action="/upload"
+                class="dropzone dz-clickable"
+                id="initial"
+                enctype="multipart/form-data"
+            >
+            </form>
+            <textarea id="docx" class="textarea_style" name="docx" rows="25" cols="86"></textarea>
+        </div>
+
+        <div class="column">
+            <form
+                method="POST"
+                action="/upload"
+                class="dropzone dz-clickable"
+                id="edited"
+                enctype="multipart/form-data"
+            >
+            </form>
+            <textarea id="pdf" class="textarea_style" name="pdf" rows="25" cols="86"></textarea>
+        </div>
+    </div>
+    <div id="loader"></div>
+    <button id="unified" class="custom-btn btn-13" type="submit">СОПОСТАВИТЬ ПО ПУНКТАМ</button>
+
+    <button id="downloadReport" class="custom-btn btn-13" type="submit">СКАЧАТЬ</button>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
