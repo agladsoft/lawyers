@@ -393,6 +393,7 @@ class MatchedChapter(object):
         self.right_bend_tokens = dict()
         self._get_right_tokens()
         self.border_matches_heap = self._fill_border_matches_heap()
+        self.best_border_match = self.border_matches_heap[0] if self.border_matches_heap else None
         self.born_border_match = born_border_match
         self.born_datetime = dt.datetime.now()
         self.is_obsolete = False
@@ -441,29 +442,29 @@ class MatchedChapter(object):
         if not self.border_matches_heap:
             logger.debug('border_matches_heap is empty, spawn_possible is False')
             return False
-        best_border_match = self.border_matches_heap[0]
-        logger.debug(f'best_border_match is {best_border_match}, thr is {thr}')
-        is_spawn_possible = best_border_match.border_rate <= thr
+        # best_border_match = self.border_matches_heap[0]
+        logger.debug(f'best_border_match is {self.best_border_match}, thr is {thr}')
+        is_spawn_possible = self.best_border_match.border_rate <= thr
         logger.debug(f'spawn_possible is {is_spawn_possible} '
-                     f'because best_border_match.border_rate {best_border_match.border_rate} <= thr {thr}')
+                     f'because best_border_match.border_rate {self.best_border_match.border_rate} <= thr {thr}')
         return is_spawn_possible
 
     def spawn_child(self, border_rate_threshold):
         logger.info(f'Will spawn_child for {self}...')
-        best_border_match = self.border_matches_heap[0]
-        if best_border_match.border_rate <= border_rate_threshold:
+        # best_border_match = self.border_matches_heap[0]
+        if self.best_border_match.border_rate <= border_rate_threshold:
             parent_left_chapter, child_left_chapter = self.left_chapter.spawn_child(
-                best_border_match.left_border_pid
+                self.best_border_match.left_border_pid
             )
             parent_right_chapter, child_right_chapter = self.right_chapter.spawn_child(
-                best_border_match.best_bend_right_token.paragraph_id
+                self.best_border_match.best_bend_right_token.paragraph_id
             )
 
             parent = MatchedChapter(parent_left_chapter, parent_right_chapter,
                                     nbrs=(self.prev, None), born_border_match=self.born_border_match)
             logger.info(f'parent is {parent}')
             child = MatchedChapter(child_left_chapter, child_right_chapter,
-                                   nbrs=(parent, self.next), born_border_match=best_border_match.border_rate)
+                                   nbrs=(parent, self.next), born_border_match=self.best_border_match.border_rate)
             logger.info(f'child is {child}')
             parent.next = child
             if self.prev:
