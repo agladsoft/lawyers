@@ -6,7 +6,7 @@ from __init__ import *
 from typing import List
 from docx import Document
 from collections import deque
-from fuzzywuzzy import process
+from fuzzywuzzy import process, fuzz
 from docx2python import docx2python
 
 logging.getLogger("pdfminer").setLevel(logging.WARNING)
@@ -20,6 +20,10 @@ class Docx(object):
     def clean_special_chars(lst: List[str]) -> List[str]:
         lst = [s.replace(u"\u202F", " ") for s in lst]
         lst = [re.sub(' +', ' ', s) for s in lst]
+        lst = [re.sub('--\n', '', s) for s in lst]
+        lst = [re.sub('--\t', '', s) for s in lst]
+        lst = [re.sub('\t', '', s) for s in lst]
+        lst = [s for s in lst if s.strip()]
         return lst
 
     @staticmethod
@@ -34,7 +38,7 @@ class Docx(object):
             prefix = dl[:i]
             # pls = process.extract(prefix, pdf_text[index_paragraph:], limit=1)
             pls = fuzzywuzzy.process.extract(prefix,
-                                             pdf_text[p_starts[-3]:],
+                                             pdf_text[min(list(p_starts)[-3:]):],
                                              scorer=fuzzywuzzy.fuzz.ratio,
                                              limit=3)
             pl = pls[0][0]
