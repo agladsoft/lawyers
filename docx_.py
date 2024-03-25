@@ -68,6 +68,7 @@ class Docx(object):
             else:
                 current_paragraph = current_paragraph.replace("\n", " ")
                 current_paragraph += pl
+        paragraphs.append(current_paragraph)
         self.save_txt(paragraphs)
         return "".join(paragraphs)
 

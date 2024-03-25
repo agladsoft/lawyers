@@ -7,6 +7,7 @@ import heapq
 import re
 import numpy as np
 import os
+import string
 
 
 import fuzzywuzzy.fuzz
@@ -227,8 +228,11 @@ class BorderTokenMatch(object):
                                                        choices=self.right_tokens.values(),
                                                        scorer=fuzzywuzzy.fuzz.ratio,
                                                        limit=3)
+        already_found_ids = set()
         for found_right_token, found_right_token_rate in found_right_tokens_and_rates:
-            paragraph_id = next((k for k, v in self.right_tokens.items() if v == found_right_token), (None, None))
+            paragraph_id = next((k for k, v in self.right_tokens.items()
+                                 if v == found_right_token and k not in already_found_ids), (None, None))
+            already_found_ids.add(paragraph_id)
             yield FoundRightToken(text=found_right_token,
                                   rate=found_right_token_rate,
                                   paragraph_id=paragraph_id,
@@ -298,7 +302,11 @@ class BorderMatch(object):
                             self.right_chapter.paragraphs[bs.paragraph_id].symbols_count
             mse = self._get_mse_of_found_right_tokens(bs, be)
 
-            if (char_distance >= 0) and (char_distance <= best_char_distance) and (mse < best_mse):
+            if mse == 0.0 and 1 >= char_distance >= -1:
+                best_bs, best_be, best_mse, best_char_distance = bs, be, mse, char_distance
+                break
+
+            if (char_distance >= -1) and (char_distance <= best_char_distance) and (mse < best_mse):
                 best_bs, best_be, best_mse, best_char_distance,  = bs, be, mse, char_distance
         a = 1
         return best_bs, best_be, best_mse, best_char_distance
