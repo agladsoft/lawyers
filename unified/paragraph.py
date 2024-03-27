@@ -8,10 +8,7 @@ import re
 import numpy as np
 import os
 import string
-
-
-import fuzzywuzzy.fuzz
-from fuzzywuzzy import process
+from rapidfuzz import process, fuzz
 
 
 logger = logging.getLogger(__name__)
@@ -226,10 +223,10 @@ class BorderTokenMatch(object):
     def _find_right_tokens(self):
         found_right_tokens_and_rates = process.extract(query=self.left_token,
                                                        choices=self.right_tokens.values(),
-                                                       scorer=fuzzywuzzy.fuzz.ratio,
+                                                       scorer=fuzz.WRatio,
                                                        limit=3)
         already_found_ids = set()
-        for found_right_token, found_right_token_rate in found_right_tokens_and_rates:
+        for found_right_token, found_right_token_rate, _ in found_right_tokens_and_rates:
             paragraph_id = next((k for k, v in self.right_tokens.items()
                                  if v == found_right_token and k not in already_found_ids), (None, None))
             already_found_ids.add(paragraph_id)
